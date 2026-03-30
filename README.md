@@ -1,6 +1,6 @@
 # IPSwitch
 
-一个基于 `Wails v2 + Go + 原生 HTML/CSS/JavaScript` 的 Windows 桌面网络配置切换工具。
+一个基于 `Wails v2 + Go + 原生 HTML/CSS/JavaScript` 的桌面网络配置切换工具，支持 Windows、macOS 和 Linux。
 
 项目目标是提供一个简单直接的图形界面，用于快速切换网卡的 `静态 IP` 和 `DHCP`，并支持保存常用网络配置，适合家庭、公司、实验室、宿舍等多场景切换使用。
 
@@ -22,12 +22,17 @@
 - 后端: `Go`
 - 桌面框架: `Wails v2`
 - 前端: `HTML + CSS + JavaScript`
-- 系统调用: `PowerShell`、`netsh`
+- 系统调用:
+  - Windows: `PowerShell`、`netsh`
+  - macOS: `networksetup`、`ifconfig`
+  - Linux: `nmcli`（NetworkManager）
 - 配置存储: `JSON`
 
 ## 运行环境
 
 - Windows 10 / Windows 11
+- macOS
+- Linux（需安装并启用 `NetworkManager/nmcli`）
 - Go 1.21+
 - Node.js
 - Wails CLI
@@ -92,7 +97,7 @@ build/bin/IPSwitch.exe
 
 ## 权限说明
 
-修改 Windows 网卡配置需要管理员权限。
+修改网卡配置需要管理员权限。
 
 如果没有管理员权限：
 
@@ -100,7 +105,7 @@ build/bin/IPSwitch.exe
 - 可以读取网卡和历史配置
 - 不能成功应用静态 IP 或 DHCP 切换
 
-建议始终使用“以管理员身份运行”启动。
+建议始终使用管理员/root 权限启动。
 
 ## 配置存储
 
@@ -152,7 +157,10 @@ ip-switch/
 
 ## 已知说明
 
-- 项目当前通过 `PowerShell + netsh` 操作 Windows 网络配置，因此仅支持 Windows
+- Windows 通过 `PowerShell + netsh` 操作网络配置
+- macOS 通过 `networksetup` 操作网络配置
+- macOS 在普通用户启动时会在应用配置阶段弹出系统管理员授权框，无需整个应用以 `sudo` 启动
+- Linux 当前通过 `NetworkManager/nmcli` 操作网络配置；未启用 NetworkManager 的发行版暂不支持
 - 构建时如果 Wails CLI 版本高于 `go.mod` 中的 Wails 依赖版本，CLI 会给出版本提示，但不一定影响构建
 - 某些第三方网卡驱动如果自身返回异常描述文本，界面中可能仍会显示不规范描述；当前已尽量通过 UTF-8 输出规避常见乱码问题
 

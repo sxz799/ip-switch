@@ -84,9 +84,17 @@ async function loadAppState() {
     const result = await window.go.main.App.GetAppState();
     state.profiles = result.profiles || [];
     renderProfiles();
-    els.adminStatus.textContent = result.isAdmin ? "管理员" : "普通权限";
-    els.adminStatus.className = result.isAdmin ? "ok" : "warn";
-    if (!result.isAdmin) {
+    const privilegeMode = result.privilegeMode || (result.isAdmin ? "admin" : "none");
+    if (privilegeMode === "admin") {
+      els.adminStatus.textContent = "管理员";
+      els.adminStatus.className = "ok";
+    } else if (privilegeMode === "prompt") {
+      els.adminStatus.textContent = "按需提权";
+      els.adminStatus.className = "ok";
+      addLog("当前平台支持在应用配置时弹出系统管理员授权框", "info");
+    } else {
+      els.adminStatus.textContent = "普通权限";
+      els.adminStatus.className = "warn";
       addLog("当前不是管理员权限，应用网络配置时会失败", "warn");
     }
   } catch (error) {

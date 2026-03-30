@@ -66,6 +66,7 @@ export namespace main {
 	}
 	export class AppState {
 	    isAdmin: boolean;
+	    privilegeMode: string;
 	    profiles: SavedProfile[];
 	
 	    static createFrom(source: any = {}) {
@@ -75,6 +76,7 @@ export namespace main {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.isAdmin = source["isAdmin"];
+	        this.privilegeMode = source["privilegeMode"];
 	        this.profiles = this.convertValues(source["profiles"], SavedProfile);
 	    }
 	
