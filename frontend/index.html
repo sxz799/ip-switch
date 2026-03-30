@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IP 快切助手</title>
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="hero-panel">
+        <div class="hero-badge">Windows 网络工具</div>
+        <h1>IP 快切助手</h1>
+        <p class="hero-copy">
+          面向日常办公的桌面网络配置工具，支持静态 IP / DHCP 一键切换、历史配置复用和当前网卡状态查看。
+        </p>
+
+        <div class="status-grid">
+          <div class="status-card">
+            <span>运行权限</span>
+            <strong id="adminStatus">检测中...</strong>
+          </div>
+          <div class="status-card">
+            <span>已保存配置</span>
+            <strong id="profileCount">0</strong>
+          </div>
+        </div>
+
+        <section class="history-panel">
+          <div class="section-head">
+            <h2>历史配置</h2>
+            <button id="reloadProfilesBtn" class="ghost-btn">刷新</button>
+          </div>
+          <div class="history-toolbar">
+            <select id="profileSelect">
+              <option value="">请选择历史配置</option>
+            </select>
+            <button id="loadProfileBtn" class="secondary-btn">载入配置</button>
+          </div>
+          <div id="profileMeta" class="profile-meta">暂无历史配置</div>
+          <button id="deleteProfileBtn" class="danger-btn">删除当前历史配置</button>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <section class="card">
+          <div class="section-head">
+            <h2>网卡管理</h2>
+            <button id="refreshAdaptersBtn" class="secondary-btn">刷新网卡</button>
+          </div>
+
+          <div class="field-grid two-col">
+            <label class="field">
+              <span>目标网卡</span>
+              <select id="adapterSelect">
+                <option value="">请选择网卡</option>
+              </select>
+            </label>
+
+            <div class="adapter-overview">
+              <div><span>状态</span><strong id="adapterStatus">-</strong></div>
+              <div><span>描述</span><strong id="adapterDescription">-</strong></div>
+              <div><span>MAC</span><strong id="adapterMac">-</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <h2>IP 配置</h2>
+            <div class="mode-toggle">
+              <button class="mode-btn active" data-mode="static">静态 IP</button>
+              <button class="mode-btn" data-mode="dhcp">DHCP</button>
+            </div>
+          </div>
+
+          <div class="field-grid">
+            <label class="field">
+              <span>IP 地址</span>
+              <input id="ipAddress" type="text" placeholder="例如 192.168.1.100" />
+            </label>
+            <label class="field">
+              <span>子网掩码</span>
+              <input id="subnetMask" type="text" placeholder="例如 255.255.255.0" />
+            </label>
+            <label class="field">
+              <span>默认网关</span>
+              <input id="gateway" type="text" placeholder="例如 192.168.1.1" />
+            </label>
+            <label class="field">
+              <span>首选 DNS</span>
+              <input id="primaryDns" type="text" placeholder="例如 223.5.5.5" />
+            </label>
+            <label class="field">
+              <span>备用 DNS</span>
+              <input id="secondaryDns" type="text" placeholder="例如 114.114.114.114" />
+            </label>
+          </div>
+
+          <div class="current-config" id="currentConfig">请选择网卡以读取当前配置</div>
+        </section>
+
+        <section class="card action-card">
+          <div class="save-row">
+            <label class="field">
+              <span>配置名称</span>
+              <input id="profileName" type="text" placeholder="例如 家庭 / 公司 / 宿舍" />
+            </label>
+            <button id="saveProfileBtn" class="secondary-btn">保存当前配置</button>
+          </div>
+
+          <div class="action-row">
+            <button id="loadCurrentBtn" class="ghost-btn">读取当前网卡配置</button>
+            <button id="applyConfigBtn" class="primary-btn">一键应用配置</button>
+          </div>
+        </section>
+
+        <section class="card log-card">
+          <div class="section-head">
+            <h2>操作日志</h2>
+            <button id="clearLogBtn" class="ghost-btn">清空日志</button>
+          </div>
+          <div id="logList" class="log-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+  </html>
