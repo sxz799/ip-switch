@@ -90,7 +90,7 @@ build/bin/IPSwitch.exe
 仓库已包含两个 GitHub Actions 工作流：
 
 - `Build`：在 `push` 到 `main/master`、`pull_request`、手动触发时执行 Windows 和 macOS 构建校验
-- `Release`：在推送 `v*` tag 时分别构建 Windows 和 macOS 版本，打包 zip、生成校验文件并统一发布 GitHub Release
+- `Release`：在推送 `v*` tag 时分别构建 Windows 和 macOS 版本，生成 Windows zip、macOS dmg、校验文件并统一发布 GitHub Release
 
 发布示例：
 
