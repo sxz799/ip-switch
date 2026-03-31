@@ -37,8 +37,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Wails CLI
-        shell: ${{ matrix.shell }}
+      - name: Install Wails CLI on Windows
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0
+
+      - name: Install Wails CLI on macOS
+        if: matrix.platform == 'macos'
+        shell: bash
         run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0
 
       - name: Add Go bin to PATH on Windows
@@ -54,12 +60,24 @@ jobs:
         run: |
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
-      - name: Download Go modules
-        shell: ${{ matrix.shell }}
+      - name: Download Go modules on Windows
+        if: matrix.platform == 'windows'
+        shell: pwsh
         run: go mod download
 
-      - name: Build release package
-        shell: ${{ matrix.shell }}
+      - name: Download Go modules on macOS
+        if: matrix.platform == 'macos'
+        shell: bash
+        run: go mod download
+
+      - name: Build release package on Windows
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: wails build -clean
+
+      - name: Build release package on macOS
+        if: matrix.platform == 'macos'
+        shell: bash
         run: wails build -clean
 
       - name: Prepare Windows assets
