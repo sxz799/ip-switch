@@ -9,7 +9,6 @@
   <body>
     <div class="app-shell">
       <aside class="hero-panel">
-        <div class="hero-badge">Windows 网络工具</div>
         <h1>IP 快切助手</h1>
         <p class="hero-copy">
           面向日常办公的桌面网络配置工具，支持静态 IP / DHCP 一键切换、历史配置复用和当前网卡状态查看。
@@ -39,6 +38,19 @@
           </div>
           <div id="profileMeta" class="profile-meta">暂无历史配置</div>
           <button id="deleteProfileBtn" class="danger-btn">删除当前历史配置</button>
+
+          <div class="save-panel">
+            <div class="section-head">
+              <h2>保存配置</h2>
+            </div>
+            <div class="save-row save-row-sidebar">
+              <label class="field">
+                <span>配置名称</span>
+                <input id="profileName" type="text" placeholder="例如 家庭 / 公司 / 宿舍" />
+              </label>
+              <button id="saveProfileBtn" class="secondary-btn">保存当前配置</button>
+            </div>
+          </div>
         </section>
       </aside>
 
@@ -98,16 +110,6 @@
           </div>
 
           <div class="current-config" id="currentConfig">请选择网卡以读取当前配置</div>
-        </section>
-
-        <section class="card action-card">
-          <div class="save-row">
-            <label class="field">
-              <span>配置名称</span>
-              <input id="profileName" type="text" placeholder="例如 家庭 / 公司 / 宿舍" />
-            </label>
-            <button id="saveProfileBtn" class="secondary-btn">保存当前配置</button>
-          </div>
 
           <div class="action-row">
             <button id="loadCurrentBtn" class="ghost-btn">读取当前网卡配置</button>
