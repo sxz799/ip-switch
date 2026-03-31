@@ -80,4 +80,4 @@ jobs:
       - name: Build application on macOS
         if: matrix.platform == 'macos'
         shell: bash
-        run: wails build -clean
+        run: wails build -clean -platform darwin/universal

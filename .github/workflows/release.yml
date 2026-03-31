@@ -78,7 +78,7 @@ jobs:
       - name: Build release package on macOS
         if: matrix.platform == 'macos'
         shell: bash
-        run: wails build -clean
+        run: wails build -clean -platform darwin/universal
 
       - name: Prepare Windows assets
         if: matrix.platform == 'windows'
