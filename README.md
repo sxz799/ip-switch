@@ -85,6 +85,28 @@ wails build
 build/bin/IPSwitch.exe
 ```
 
+## GitHub Actions
+
+仓库已包含两个 GitHub Actions 工作流：
+
+- `Build`：在 `push` 到 `main/master`、`pull_request`、手动触发时执行 Windows 和 macOS 构建校验
+- `Release`：在推送 `v*` tag 时分别构建 Windows 和 macOS 版本，打包 zip、生成校验文件并统一发布 GitHub Release
+
+发布示例：
+
+```powershell
+git tag v0.1.1
+git push origin v0.1.1
+```
+
+如果仓库根目录存在对应版本的说明文件，例如：
+
+```text
+RELEASE_NOTES_v0.1.1.md
+```
+
+Release 工作流会优先使用该文件作为发布说明；否则自动生成 GitHub Release Notes。
+
 ## 使用说明
 
 1. 以管理员身份启动程序

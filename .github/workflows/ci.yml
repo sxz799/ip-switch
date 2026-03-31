@@ -1,0 +1,65 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows Build
+            platform: windows
+            os: windows-latest
+            shell: pwsh
+          - name: macOS Build
+            platform: macos
+            os: macos-latest
+            shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Wails CLI
+        shell: ${{ matrix.shell }}
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.12.0
+
+      - name: Add Go bin to PATH on Windows
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $goBin = Join-Path (go env GOPATH) "bin"
+          $goBin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Add Go bin to PATH on macOS
+        if: matrix.platform == 'macos'
+        shell: bash
+        run: |
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Download Go modules
+        shell: ${{ matrix.shell }}
+        run: go mod download
+
+      - name: Build application
+        shell: ${{ matrix.shell }}
+        run: wails build -clean
